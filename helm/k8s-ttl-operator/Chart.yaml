@@ -4,8 +4,8 @@ description: |
   A Kubernetes operator that automatically deletes resources annotated with
   wenisch.tech/ttl when the specified UTC timestamp has passed.
 type: application
-version: 1.0.0
-appVersion: "1.0.0"
+version: 0.0.1
+appVersion: "0.0.1"
 keywords:
   - kubernetes
   - operator
