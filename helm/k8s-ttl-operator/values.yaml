@@ -1,0 +1,74 @@
+# Default values for k8s-ttl-operator.
+
+replicaCount: 1
+
+image:
+  repository: wenischtech/k8s-ttl-operator
+  pullPolicy: IfNotPresent
+  tag: "1.0.0"
+
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+# Operator configuration
+operator:
+  # How often to run the TTL check (ISO-8601 duration)
+  checkInterval: "60s"
+  # Set to true to log deletions without actually deleting resources
+  dryRun: false
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "k8s-ttl-operator"
+
+podAnnotations: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+service:
+  type: ClusterIP
+  port: 8080
+
+# Liveness and readiness probes (Quarkus SmallRye Health)
+livenessProbe:
+  httpGet:
+    path: /q/health/live
+    port: 8081
+  initialDelaySeconds: 10
+  periodSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /q/health/ready
+    port: 8081
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  failureThreshold: 3
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

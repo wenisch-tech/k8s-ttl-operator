@@ -1,0 +1,221 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  name: k8s-ttl-operator.v1.0.0
+  namespace: placeholder
+  annotations:
+    alm-examples: |-
+      []
+    capabilities: Basic Install
+    categories: Developer Tools
+    containerImage: docker.io/wenischtech/k8s-ttl-operator:1.0.0
+    createdAt: "2024-01-01T00:00:00Z"
+    description: |
+      A Kubernetes operator that automatically deletes resources annotated with
+      wenisch.tech/ttl when the specified UTC timestamp has passed.
+    repository: https://github.com/wenisch-tech/k8s-ttl-operator
+    support: wenisch-tech
+    operators.operatorframework.io/builder: operator-sdk-v1.34.0
+    operators.operatorframework.io/project_layout: quarkus.operatorsdk.io/v1-alpha
+spec:
+  displayName: k8s TTL Operator
+  description: |
+    ## Overview
+
+    The **k8s TTL Operator** watches every Kubernetes resource for the
+    `wenisch.tech/ttl` annotation. When the UTC timestamp carried by that
+    annotation is crossed, the operator automatically deletes the resource.
+
+    This enables self-expiring resources in a cluster — useful for temporary
+    test environments, ephemeral workloads, and time-bound access grants.
+
+    ## Usage
+
+    Annotate any resource with the `wenisch.tech/ttl` annotation set to a
+    UTC timestamp in [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) format:
+
+    ```yaml
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: my-temp-pod
+      annotations:
+        wenisch.tech/ttl: "2025-12-31T23:59:59Z"
+    spec:
+      containers:
+        - name: alpine
+          image: alpine:latest
+          command: ["sleep", "infinity"]
+    ```
+
+    The operator supports all standard resource types including:
+
+    * Workloads: `Pod`, `Deployment`, `ReplicaSet`, `StatefulSet`, `DaemonSet`,
+      `Job`, `CronJob`
+    * Networking: `Service`, `Ingress`
+    * Config: `ConfigMap`, `Secret`, `ServiceAccount`
+    * Cluster-scoped: `Namespace`, `CustomResourceDefinition`, `ClusterRole`,
+      `ClusterRoleBinding`
+    * **Any Custom Resource** installed in the cluster
+
+    ## Configuration
+
+    | Environment Variable    | Default | Description                              |
+    |-------------------------|---------|------------------------------------------|
+    | `TTL_CHECK_INTERVAL`    | `60s`   | How often to scan resources for TTL      |
+    | `TTL_DRY_RUN`           | `false` | Log deletions without executing them     |
+
+    ## Metrics
+
+    Prometheus metrics are exposed on port `8081` at `/q/metrics`:
+
+    * `ttl_operator_resources_deleted_total` – total resources deleted
+    * `ttl_operator_errors_total` – total errors encountered
+
+    ## Health Checks
+
+    | Probe     | Path               | Port |
+    |-----------|--------------------|------|
+    | Liveness  | `/q/health/live`   | 8081 |
+    | Readiness | `/q/health/ready`  | 8081 |
+
+  version: 1.0.0
+  maturity: alpha
+  replaces: ""
+
+  keywords:
+    - kubernetes
+    - operator
+    - ttl
+    - garbage-collection
+    - resource-lifecycle
+
+  maintainers:
+    - name: wenisch-tech
+      email: operator@wenisch.tech
+
+  provider:
+    name: wenisch-tech
+    url: https://wenisch.tech
+
+  links:
+    - name: GitHub Repository
+      url: https://github.com/wenisch-tech/k8s-ttl-operator
+    - name: OperatorHub
+      url: https://operatorhub.io
+
+  icon:
+    - base64data: >-
+        PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAy
+        NCAyNCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAg
+        MTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTEgMTVoLTJ2LTZoMnY2em0wLThoLTJWN2gy
+        djJ6Ii8+PC9zdmc+
+      mediatype: image/svg+xml
+
+  minKubeVersion: 1.25.0
+
+  installModes:
+    - type: OwnNamespace
+      supported: true
+    - type: SingleNamespace
+      supported: false
+    - type: MultiNamespace
+      supported: false
+    - type: AllNamespaces
+      supported: true
+
+  install:
+    strategy: deployment
+    spec:
+      clusterPermissions:
+        - rules:
+            - apiGroups: [""]
+              resources: [pods, services, configmaps, secrets, serviceaccounts, namespaces]
+              verbs: [get, list, watch, delete]
+            - apiGroups: [apps]
+              resources: [deployments, replicasets, statefulsets, daemonsets]
+              verbs: [get, list, watch, delete]
+            - apiGroups: [batch]
+              resources: [jobs, cronjobs]
+              verbs: [get, list, watch, delete]
+            - apiGroups: [networking.k8s.io]
+              resources: [ingresses]
+              verbs: [get, list, watch, delete]
+            - apiGroups: [rbac.authorization.k8s.io]
+              resources: [clusterroles, clusterrolebindings, roles, rolebindings]
+              verbs: [get, list, watch, delete]
+            - apiGroups: [apiextensions.k8s.io]
+              resources: [customresourcedefinitions]
+              verbs: [get, list, watch, delete]
+            - apiGroups: ["*"]
+              resources: ["*"]
+              verbs: [get, list, watch, delete]
+          serviceAccountName: k8s-ttl-operator
+      deployments:
+        - name: k8s-ttl-operator
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                app.kubernetes.io/name: k8s-ttl-operator
+            strategy: {}
+            template:
+              metadata:
+                labels:
+                  app.kubernetes.io/name: k8s-ttl-operator
+              spec:
+                serviceAccountName: k8s-ttl-operator
+                securityContext:
+                  runAsNonRoot: true
+                  runAsUser: 1000
+                containers:
+                  - name: operator
+                    image: docker.io/wenischtech/k8s-ttl-operator:1.0.0
+                    imagePullPolicy: IfNotPresent
+                    securityContext:
+                      allowPrivilegeEscalation: false
+                      readOnlyRootFilesystem: true
+                      capabilities:
+                        drop: [ALL]
+                    ports:
+                      - containerPort: 8080
+                        name: http
+                        protocol: TCP
+                      - containerPort: 8081
+                        name: management
+                        protocol: TCP
+                    env:
+                      - name: TTL_CHECK_INTERVAL
+                        value: "60s"
+                      - name: TTL_DRY_RUN
+                        value: "false"
+                    livenessProbe:
+                      httpGet:
+                        path: /q/health/live
+                        port: 8081
+                      initialDelaySeconds: 10
+                      periodSeconds: 30
+                    readinessProbe:
+                      httpGet:
+                        path: /q/health/ready
+                        port: 8081
+                      initialDelaySeconds: 5
+                      periodSeconds: 10
+                    resources:
+                      limits:
+                        cpu: 500m
+                        memory: 256Mi
+                      requests:
+                        cpu: 100m
+                        memory: 128Mi
+                    volumeMounts:
+                      - name: tmp
+                        mountPath: /tmp
+                volumes:
+                  - name: tmp
+                    emptyDir: {}
+
+  customresourcedefinitions:
+    owned: []
+
+  webhookdefinitions: []

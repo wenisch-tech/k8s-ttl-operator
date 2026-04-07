@@ -1,0 +1,19 @@
+apiVersion: v2
+name: k8s-ttl-operator
+description: |
+  A Kubernetes operator that automatically deletes resources annotated with
+  wenisch.tech/ttl when the specified UTC timestamp has passed.
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - kubernetes
+  - operator
+  - ttl
+  - garbage-collection
+home: https://github.com/wenisch-tech/k8s-ttl-operator
+sources:
+  - https://github.com/wenisch-tech/k8s-ttl-operator
+maintainers:
+  - name: wenisch-tech
+    url: https://wenisch.tech
