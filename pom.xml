@@ -23,7 +23,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-    <quarkus.platform.version>3.8.4</quarkus.platform.version>
+    <quarkus.platform.version>3.34.2</quarkus.platform.version>
     <quarkiverse.operator-sdk.version>6.8.2</quarkiverse.operator-sdk.version>
   </properties>
 
