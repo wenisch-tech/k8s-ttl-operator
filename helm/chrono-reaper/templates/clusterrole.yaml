@@ -1,9 +1,9 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "k8s-ttl-operator.fullname" . }}
+  name: {{ include "chrono-reaper.fullname" . }}
   labels:
-    {{- include "k8s-ttl-operator.labels" . | nindent 4 }}
+    {{- include "chrono-reaper.labels" . | nindent 4 }}
 rules:
   # Core API group – namespaced resources
   - apiGroups: [""]

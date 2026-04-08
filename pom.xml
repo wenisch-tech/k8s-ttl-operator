@@ -6,11 +6,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>tech.wenisch</groupId>
-  <artifactId>k8s-ttl-operator</artifactId>
+  <artifactId>chrono-reaper</artifactId>
   <version>0.0.6</version>
   <packaging>jar</packaging>
 
-  <name>k8s-ttl-operator</name>
+  <name>chrono-reaper</name>
   <description>
     A Kubernetes operator that automatically deletes resources when a
     wenisch.tech/ttl annotation timestamp is crossed.

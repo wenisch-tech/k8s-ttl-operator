@@ -47,19 +47,19 @@ jobs:
         run: |
           set -euo pipefail
           version="${{ inputs.version }}"
-          dest="bundle/k8s-ttl-operator/${version}"
+          dest="bundle/chrono-reaper/${version}"
           mkdir -p "$dest/manifests" "$dest/metadata"
 
           # Copy metadata (annotations stay the same across versions)
           cp bundle/metadata/annotations.yaml "$dest/metadata/annotations.yaml"
 
           # Copy and rename the CSV
-          src_csv="bundle/manifests/k8s-ttl-operator.v1.0.0.clusterserviceversion.yaml"
-          dest_csv="$dest/manifests/k8s-ttl-operator.v${version}.clusterserviceversion.yaml"
+          src_csv="bundle/manifests/chrono-reaper.v1.0.0.clusterserviceversion.yaml"
+          dest_csv="$dest/manifests/chrono-reaper.v${version}.clusterserviceversion.yaml"
           cp "$src_csv" "$dest_csv"
 
           # Patch metadata.name
-          yq eval ".metadata.name = \"k8s-ttl-operator.v${version}\"" -i "$dest_csv"
+          yq eval ".metadata.name = \"chrono-reaper.v${version}\"" -i "$dest_csv"
 
           # Patch spec.version
           yq eval ".spec.version = \"${version}\"" -i "$dest_csv"
@@ -73,7 +73,7 @@ jobs:
           # Patch spec.replaces (OLM upgrade graph)
           prev="${{ steps.prev.outputs.version }}"
           if [ -n "$prev" ]; then
-            yq eval ".spec.replaces = \"k8s-ttl-operator.v${prev}\"" -i "$dest_csv"
+            yq eval ".spec.replaces = \"chrono-reaper.v${prev}\"" -i "$dest_csv"
           else
             yq eval 'del(.spec.replaces)' -i "$dest_csv"
           fi
@@ -101,6 +101,6 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add bundle/k8s-ttl-operator/
+          git add bundle/chrono-reaper/
           git diff --cached --quiet || git commit -m "chore(bundle): add OLM bundle for v${{ inputs.version }} [skip ci]"
           git push

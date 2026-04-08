@@ -1,14 +1,14 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "k8s-ttl-operator.name" -}}
+{{- define "chrono-reaper.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create a default fully qualified app name.
 */}}
-{{- define "k8s-ttl-operator.fullname" -}}
+{{- define "chrono-reaper.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -24,16 +24,16 @@ Create a default fully qualified app name.
 {{/*
 Create chart label.
 */}}
-{{- define "k8s-ttl-operator.chart" -}}
+{{- define "chrono-reaper.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels.
 */}}
-{{- define "k8s-ttl-operator.labels" -}}
-helm.sh/chart: {{ include "k8s-ttl-operator.chart" . }}
-{{ include "k8s-ttl-operator.selectorLabels" . }}
+{{- define "chrono-reaper.labels" -}}
+helm.sh/chart: {{ include "chrono-reaper.chart" . }}
+{{ include "chrono-reaper.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,17 +43,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels.
 */}}
-{{- define "k8s-ttl-operator.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "k8s-ttl-operator.name" . }}
+{{- define "chrono-reaper.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chrono-reaper.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Service account name.
 */}}
-{{- define "k8s-ttl-operator.serviceAccountName" -}}
+{{- define "chrono-reaper.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "k8s-ttl-operator.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "chrono-reaper.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

@@ -1,28 +1,28 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: k8s-ttl-operator.v0.0.6
+  name: chrono-reaper.v1.0.0
   namespace: placeholder
   annotations:
     alm-examples: |-
       []
     capabilities: Basic Install
     categories: Developer Tools
-    containerImage: ghcr.io/wenisch-tech/k8s-ttl-operator:0.0.6
+    containerImage: docker.io/wenischtech/chrono-reaper:1.0.0
     createdAt: "2024-01-01T00:00:00Z"
     description: |
       A Kubernetes operator that automatically deletes resources annotated with
       wenisch.tech/ttl when the specified UTC timestamp has passed.
-    repository: https://github.com/wenisch-tech/k8s-ttl-operator
+    repository: https://github.com/wenisch-tech/ChronoReaper
     support: wenisch-tech
     operators.operatorframework.io/builder: operator-sdk-v1.34.0
     operators.operatorframework.io/project_layout: quarkus.operatorsdk.io/v1-alpha
 spec:
-  displayName: k8s TTL Operator
+  displayName: ChronoReaper
   description: |
     ## Overview
 
-    The **k8s TTL Operator** watches every Kubernetes resource for the
+    The **ChronoReaper** watches every Kubernetes resource for the
     `wenisch.tech/ttl` annotation. When the UTC timestamp carried by that
     annotation is crossed, the operator automatically deletes the resource.
 
@@ -78,31 +78,42 @@ spec:
     |-----------|--------------------|------|
     | Liveness  | `/q/health/live`   | 8081 |
     | Readiness | `/q/health/ready`  | 8081 |
-  version: 0.0.6
+
+  version: 1.0.0
   maturity: alpha
-  replaces: "k8s-ttl-operator.v0.0.5"
+  replaces: ""
+
   keywords:
     - kubernetes
     - operator
     - ttl
     - garbage-collection
     - resource-lifecycle
+
   maintainers:
     - name: wenisch-tech
       email: operator@wenisch.tech
+
   provider:
     name: wenisch-tech
     url: https://wenisch.tech
+
   links:
     - name: GitHub Repository
-      url: https://github.com/wenisch-tech/k8s-ttl-operator
+      url: https://github.com/wenisch-tech/ChronoReaper
     - name: OperatorHub
       url: https://operatorhub.io
+
   icon:
     - base64data: >-
-        PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAy NCAyNCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAg MTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTEgMTVoLTJ2LTZoMnY2em0wLThoLTJWN2gy djJ6Ii8+PC9zdmc+
+        PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAy
+        NCAyNCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAg
+        MTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTEgMTVoLTJ2LTZoMnY2em0wLThoLTJWN2gy
+        djJ6Ii8+PC9zdmc+
       mediatype: image/svg+xml
+
   minKubeVersion: 1.25.0
+
   installModes:
     - type: OwnNamespace
       supported: true
@@ -112,6 +123,7 @@ spec:
       supported: false
     - type: AllNamespaces
       supported: true
+
   install:
     strategy: deployment
     spec:
@@ -138,27 +150,27 @@ spec:
             - apiGroups: ["*"]
               resources: ["*"]
               verbs: [get, list, watch, delete]
-          serviceAccountName: k8s-ttl-operator
+          serviceAccountName: chrono-reaper
       deployments:
-        - name: k8s-ttl-operator
+        - name: chrono-reaper
           spec:
             replicas: 1
             selector:
               matchLabels:
-                app.kubernetes.io/name: k8s-ttl-operator
+                app.kubernetes.io/name: chrono-reaper
             strategy: {}
             template:
               metadata:
                 labels:
-                  app.kubernetes.io/name: k8s-ttl-operator
+                  app.kubernetes.io/name: chrono-reaper
               spec:
-                serviceAccountName: k8s-ttl-operator
+                serviceAccountName: chrono-reaper
                 securityContext:
                   runAsNonRoot: true
                   runAsUser: 1000
                 containers:
                   - name: operator
-                    image: ghcr.io/wenisch-tech/k8s-ttl-operator:0.0.6
+                    image: docker.io/wenischtech/chrono-reaper:1.0.0
                     imagePullPolicy: IfNotPresent
                     securityContext:
                       allowPrivilegeEscalation: false
@@ -202,6 +214,8 @@ spec:
                 volumes:
                   - name: tmp
                     emptyDir: {}
+
   customresourcedefinitions:
     owned: []
+
   webhookdefinitions: []

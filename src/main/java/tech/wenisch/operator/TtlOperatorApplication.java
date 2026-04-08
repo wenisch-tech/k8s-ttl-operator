@@ -7,7 +7,7 @@ import jakarta.inject.Inject;
 import org.jboss.logging.Logger;
 
 /**
- * Main entry point for the k8s-ttl-operator.
+ * Main entry point for the ChronoReaper operator.
  *
  * <p>This operator watches Kubernetes resources annotated with {@code wenisch.tech/ttl}
  * and automatically deletes them when the specified UTC timestamp is reached.
@@ -26,7 +26,7 @@ public class TtlOperatorApplication implements QuarkusApplication {
 
     @Override
     public int run(String... args) throws Exception {
-        LOG.info("Starting k8s-ttl-operator...");
+        LOG.info("Starting ChronoReaper...");
         operator.start();
         Quarkus.waitForExit();
         return 0;

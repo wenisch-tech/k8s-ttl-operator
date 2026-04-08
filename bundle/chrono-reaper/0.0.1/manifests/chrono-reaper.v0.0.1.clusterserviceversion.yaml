@@ -1,28 +1,28 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: k8s-ttl-operator.v0.0.1
+  name: chrono-reaper.v0.0.1
   namespace: placeholder
   annotations:
     alm-examples: |-
       []
     capabilities: Basic Install
     categories: Developer Tools
-    containerImage: ghcr.io/wenisch-tech/k8s-ttl-operator:0.0.1
+    containerImage: ghcr.io/wenisch-tech/ChronoReaper:0.0.1
     createdAt: "2024-01-01T00:00:00Z"
     description: |
       A Kubernetes operator that automatically deletes resources annotated with
       wenisch.tech/ttl when the specified UTC timestamp has passed.
-    repository: https://github.com/wenisch-tech/k8s-ttl-operator
+    repository: https://github.com/wenisch-tech/ChronoReaper
     support: wenisch-tech
     operators.operatorframework.io/builder: operator-sdk-v1.34.0
     operators.operatorframework.io/project_layout: quarkus.operatorsdk.io/v1-alpha
 spec:
-  displayName: k8s TTL Operator
+  displayName: ChronoReaper
   description: |
     ## Overview
 
-    The **k8s TTL Operator** watches every Kubernetes resource for the
+    The **ChronoReaper** watches every Kubernetes resource for the
     `wenisch.tech/ttl` annotation. When the UTC timestamp carried by that
     annotation is crossed, the operator automatically deletes the resource.
 
@@ -94,7 +94,7 @@ spec:
     url: https://wenisch.tech
   links:
     - name: GitHub Repository
-      url: https://github.com/wenisch-tech/k8s-ttl-operator
+      url: https://github.com/wenisch-tech/ChronoReaper
     - name: OperatorHub
       url: https://operatorhub.io
   icon:
@@ -137,27 +137,27 @@ spec:
             - apiGroups: ["*"]
               resources: ["*"]
               verbs: [get, list, watch, delete]
-          serviceAccountName: k8s-ttl-operator
+          serviceAccountName: chrono-reaper
       deployments:
-        - name: k8s-ttl-operator
+        - name: chrono-reaper
           spec:
             replicas: 1
             selector:
               matchLabels:
-                app.kubernetes.io/name: k8s-ttl-operator
+                app.kubernetes.io/name: chrono-reaper
             strategy: {}
             template:
               metadata:
                 labels:
-                  app.kubernetes.io/name: k8s-ttl-operator
+                  app.kubernetes.io/name: chrono-reaper
               spec:
-                serviceAccountName: k8s-ttl-operator
+                serviceAccountName: chrono-reaper
                 securityContext:
                   runAsNonRoot: true
                   runAsUser: 1000
                 containers:
                   - name: operator
-                    image: ghcr.io/wenisch-tech/k8s-ttl-operator:0.0.1
+                    image: ghcr.io/wenisch-tech/ChronoReaper:0.0.1
                     imagePullPolicy: IfNotPresent
                     securityContext:
                       allowPrivilegeEscalation: false

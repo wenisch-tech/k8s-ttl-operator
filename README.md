@@ -1,4 +1,4 @@
-# k8s-ttl-operator
+# ChronoReaper
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://adoptium.net)
@@ -66,16 +66,16 @@ metadata:
 ### Option 1 — Helm
 
 ```bash
-helm install k8s-ttl-operator helm/k8s-ttl-operator \
-  --namespace k8s-ttl-operator \
+helm install chrono-reaper helm/chrono-reaper \
+  --namespace chrono-reaper \
   --create-namespace
 ```
 
 Common overrides:
 
 ```bash
-helm install k8s-ttl-operator helm/k8s-ttl-operator \
-  --namespace k8s-ttl-operator \
+helm install chrono-reaper helm/chrono-reaper \
+  --namespace chrono-reaper \
   --create-namespace \
   --set operator.checkInterval=30s \   # poll every 30 s
   --set operator.dryRun=true           # log only, no actual deletion
@@ -95,7 +95,7 @@ helm install k8s-ttl-operator helm/k8s-ttl-operator \
    kubectl apply -f bundle/manifests/
    ```
 
-3. Or search for **k8s-ttl-operator** on [OperatorHub.io](https://operatorhub.io)
+3. Or search for **ChronoReaper** on [OperatorHub.io](https://operatorhub.io)
    and follow the one-click install.
 
 ---
@@ -227,8 +227,8 @@ mvn quarkus:dev
 ### Build the container image
 
 ```bash
-docker build -t wenischtech/k8s-ttl-operator:1.0.0 .
-docker push wenischtech/k8s-ttl-operator:1.0.0
+docker build -t wenischtech/chrono-reaper:1.0.0 .
+docker push wenischtech/chrono-reaper:1.0.0
 ```
 
 ---
@@ -236,14 +236,14 @@ docker push wenischtech/k8s-ttl-operator:1.0.0
 ## Repository layout
 
 ```
-k8s-ttl-operator/
+ChronoReaper/
 ├── src/
 │   ├── main/java/tech/wenisch/operator/
 │   │   ├── TtlOperatorApplication.java   # Quarkus / JOSDK entry point
 │   │   └── TtlController.java            # Scheduled TTL-check logic
 │   └── main/resources/
 │       └── application.properties        # Runtime configuration defaults
-├── helm/k8s-ttl-operator/                # Helm chart
+├── helm/chrono-reaper/                # Helm chart
 │   ├── Chart.yaml
 │   ├── values.yaml
 │   └── templates/
@@ -254,7 +254,7 @@ k8s-ttl-operator/
 │       └── service.yaml
 ├── bundle/                               # OLM bundle for OperatorHub.io
 │   ├── manifests/
-│   │   └── k8s-ttl-operator.v1.0.0.clusterserviceversion.yaml
+│   │   └── chrono-reaper.v1.0.0.clusterserviceversion.yaml
 │   ├── metadata/
 │   │   └── annotations.yaml
 │   ├── tests/scorecard/config.yaml
@@ -276,8 +276,8 @@ k8s-ttl-operator/
 2. **Build & push** the bundle image:
 
    ```bash
-   docker build -t wenischtech/k8s-ttl-operator-bundle:1.0.0 bundle/
-   docker push wenischtech/k8s-ttl-operator-bundle:1.0.0
+   docker build -t wenischtech/chrono-reaper-bundle:1.0.0 bundle/
+   docker push wenischtech/chrono-reaper-bundle:1.0.0
    ```
 
 3. **Submit** to OperatorHub.io by following the

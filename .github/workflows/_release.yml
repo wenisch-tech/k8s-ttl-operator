@@ -83,15 +83,15 @@ jobs:
         run: |
           set -euo pipefail
           version="${{ inputs.version }}"
-          yq eval ".appVersion = \"$version\"" -i helm/k8s-ttl-operator/Chart.yaml
-          yq eval ".version = \"$version\"" -i helm/k8s-ttl-operator/Chart.yaml
+          yq eval ".appVersion = \"$version\"" -i helm/chrono-reaper/Chart.yaml
+          yq eval ".version = \"$version\"" -i helm/chrono-reaper/Chart.yaml
 
       - name: Generate Helm values schema
         shell: bash
         run: |
           set -euo pipefail
           helm plugin install https://github.com/karuppiah7890/helm-schema-gen.git
-          helm schema-gen helm/k8s-ttl-operator/values.yaml > helm/k8s-ttl-operator/values.schema.json
+          helm schema-gen helm/chrono-reaper/values.yaml > helm/chrono-reaper/values.schema.json
 
       - name: Commit release files
         shell: bash
@@ -99,12 +99,12 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add pom.xml CHANGELOG.md helm/k8s-ttl-operator/Chart.yaml helm/k8s-ttl-operator/values.schema.json
+          git add pom.xml CHANGELOG.md helm/chrono-reaper/Chart.yaml helm/chrono-reaper/values.schema.json
           git commit -m "chore(release): ${{ inputs.tag }} [skip ci]" || exit 0
           git push
 
       - name: Package Helm chart
-        run: helm package helm/k8s-ttl-operator/ --destination ./release
+        run: helm package helm/chrono-reaper/ --destination ./release
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3
@@ -129,14 +129,14 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUBTOKEN }}
         run: |
           git clone https://$GH_TOKEN@github.com/JFWenisch/charts.git charts-repo
-          mkdir -p charts-repo/k8s-ttl-operator
-          cp ./release/*.tgz charts-repo/k8s-ttl-operator/
-          cp ./release/*.cosign.bundle charts-repo/k8s-ttl-operator/ 2>/dev/null || true
+          mkdir -p charts-repo/chrono-reaper
+          cp ./release/*.tgz charts-repo/chrono-reaper/
+          cp ./release/*.cosign.bundle charts-repo/chrono-reaper/ 2>/dev/null || true
           cd charts-repo
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add .
-          git commit -m "Add k8s-ttl-operator helm chart in version ${{ inputs.version }}" || echo "No chart changes to commit"
+          git commit -m "Add chrono-reaper helm chart in version ${{ inputs.version }}" || echo "No chart changes to commit"
           git push https://$GH_TOKEN@github.com/JFWenisch/charts.git main
 
       - name: Create GitHub release
@@ -160,20 +160,20 @@ jobs:
             **Verify image signature:**
             ```bash
             cosign verify ${{ inputs.image }}@${{ inputs.digest }} \
-              --certificate-identity-regexp="https://github.com/wenisch-tech/k8s-ttl-operator" \
+              --certificate-identity-regexp="https://github.com/wenisch-tech/ChronoReaper" \
               --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
             ```
 
             **Verify build provenance:**
             ```bash
             gh attestation verify oci://${{ inputs.image }}@${{ inputs.digest }} \
-              --repo wenisch-tech/k8s-ttl-operator
+              --repo wenisch-tech/ChronoReaper
             ```
 
             **Verify Helm chart signature:**
             ```bash
-            cosign verify-blob k8s-ttl-operator-${{ inputs.version }}.tgz \
-              --bundle k8s-ttl-operator-${{ inputs.version }}.tgz.cosign.bundle \
-              --certificate-identity-regexp="https://github.com/wenisch-tech/k8s-ttl-operator" \
+            cosign verify-blob chrono-reaper-${{ inputs.version }}.tgz \
+              --bundle chrono-reaper-${{ inputs.version }}.tgz.cosign.bundle \
+              --certificate-identity-regexp="https://github.com/wenisch-tech/ChronoReaper" \
               --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
             ```

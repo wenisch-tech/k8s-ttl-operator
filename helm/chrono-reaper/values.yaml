@@ -1,9 +1,9 @@
-# Default values for k8s-ttl-operator.
+# Default values for chrono-reaper.
 
 replicaCount: 1
 
 image:
-  repository: wenischtech/k8s-ttl-operator
+  repository: wenischtech/chrono-reaper
   pullPolicy: IfNotPresent
   tag: "1.0.0"
 
@@ -22,7 +22,7 @@ operator:
 serviceAccount:
   create: true
   annotations: {}
-  name: "k8s-ttl-operator"
+  name: "chrono-reaper"
 
 podAnnotations: {}
 

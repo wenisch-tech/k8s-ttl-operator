@@ -1,5 +1,5 @@
 apiVersion: v2
-name: k8s-ttl-operator
+name: chrono-reaper
 description: |
   A Kubernetes operator that automatically deletes resources annotated with
   wenisch.tech/ttl when the specified UTC timestamp has passed.
@@ -11,9 +11,9 @@ keywords:
   - operator
   - ttl
   - garbage-collection
-home: https://github.com/wenisch-tech/k8s-ttl-operator
+home: https://github.com/wenisch-tech/ChronoReaper
 sources:
-  - https://github.com/wenisch-tech/k8s-ttl-operator
+  - https://github.com/wenisch-tech/ChronoReaper
 maintainers:
   - name: wenisch-tech
     url: https://wenisch.tech
