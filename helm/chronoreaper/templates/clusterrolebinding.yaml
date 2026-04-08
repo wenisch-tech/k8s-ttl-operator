@@ -1,14 +1,14 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "chrono-reaper.fullname" . }}
+  name: {{ include "chronoreaper.fullname" . }}
   labels:
-    {{- include "chrono-reaper.labels" . | nindent 4 }}
+    {{- include "chronoreaper.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ include "chrono-reaper.fullname" . }}
+  name: {{ include "chronoreaper.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    name: {{ include "chrono-reaper.serviceAccountName" . }}
+    name: {{ include "chronoreaper.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}

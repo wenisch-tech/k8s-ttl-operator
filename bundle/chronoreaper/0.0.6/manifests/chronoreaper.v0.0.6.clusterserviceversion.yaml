@@ -1,7 +1,7 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: chrono-reaper.v0.0.6
+  name: chronoreaper.v0.0.6
   namespace: placeholder
   annotations:
     alm-examples: |-
@@ -80,7 +80,7 @@ spec:
     | Readiness | `/q/health/ready`  | 8081 |
   version: 0.0.6
   maturity: alpha
-  replaces: "chrono-reaper.v0.0.5"
+  replaces: "chronoreaper.v0.0.5"
   keywords:
     - kubernetes
     - operator
@@ -138,21 +138,21 @@ spec:
             - apiGroups: ["*"]
               resources: ["*"]
               verbs: [get, list, watch, delete]
-          serviceAccountName: chrono-reaper
+          serviceAccountName: chronoreaper
       deployments:
-        - name: chrono-reaper
+        - name: chronoreaper
           spec:
             replicas: 1
             selector:
               matchLabels:
-                app.kubernetes.io/name: chrono-reaper
+                app.kubernetes.io/name: chronoreaper
             strategy: {}
             template:
               metadata:
                 labels:
-                  app.kubernetes.io/name: chrono-reaper
+                  app.kubernetes.io/name: chronoreaper
               spec:
-                serviceAccountName: chrono-reaper
+                serviceAccountName: chronoreaper
                 securityContext:
                   runAsNonRoot: true
                   runAsUser: 1000

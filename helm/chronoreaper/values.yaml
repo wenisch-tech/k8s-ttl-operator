@@ -1,9 +1,9 @@
-# Default values for chrono-reaper.
+# Default values for chronoreaper.
 
 replicaCount: 1
 
 image:
-  repository: wenisch-tech/chrono-reaper
+  repository: wenisch-tech/chronoreaper
   pullPolicy: IfNotPresent
   tag: 
 
@@ -22,7 +22,7 @@ operator:
 serviceAccount:
   create: true
   annotations: {}
-  name: "chrono-reaper"
+  name: "chronoreaper"
 
 podAnnotations: {}
 

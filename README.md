@@ -66,16 +66,16 @@ metadata:
 ### Option 1 — Helm
 
 ```bash
-helm install chrono-reaper helm/chrono-reaper \
-  --namespace chrono-reaper \
+helm install chronoreaper helm/chronoreaper \
+  --namespace chronoreaper \
   --create-namespace
 ```
 
 Common overrides:
 
 ```bash
-helm install chrono-reaper helm/chrono-reaper \
-  --namespace chrono-reaper \
+helm install chronoreaper helm/chronoreaper \
+  --namespace chronoreaper \
   --create-namespace \
   --set operator.checkInterval=30s \   # poll every 30 s
   --set operator.dryRun=true           # log only, no actual deletion
@@ -227,8 +227,8 @@ mvn quarkus:dev
 ### Build the container image
 
 ```bash
-docker build -t wenisch-tech/chrono-reaper:latest .
-docker push wenisch-tech/chrono-reaper:latest
+docker build -t wenisch-tech/chronoreaper:latest .
+docker push wenisch-tech/chronoreaper:latest
 ```
 
 

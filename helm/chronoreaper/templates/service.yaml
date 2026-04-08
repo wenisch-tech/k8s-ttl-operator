@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "chrono-reaper.fullname" . }}
+  name: {{ include "chronoreaper.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "chrono-reaper.labels" . | nindent 4 }}
+    {{- include "chronoreaper.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -13,4 +13,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "chrono-reaper.selectorLabels" . | nindent 4 }}
+    {{- include "chronoreaper.selectorLabels" . | nindent 4 }}

@@ -1,14 +1,14 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
-  name: chrono-reaper.v0.0.1
+  name: chronoreaper.v1.0.0
   namespace: placeholder
   annotations:
     alm-examples: |-
       []
     capabilities: Basic Install
     categories: Developer Tools
-    containerImage: ghcr.io/wenisch-tech/ChronoReaper:0.0.1
+    containerImage: docker.io/wenischtech/chronoreaper:1.0.0
     createdAt: "2024-01-01T00:00:00Z"
     description: |
       A Kubernetes operator that automatically deletes resources annotated with
@@ -78,30 +78,42 @@ spec:
     |-----------|--------------------|------|
     | Liveness  | `/q/health/live`   | 8081 |
     | Readiness | `/q/health/ready`  | 8081 |
-  version: 0.0.1
+
+  version: 1.0.0
   maturity: alpha
+  replaces: ""
+
   keywords:
     - kubernetes
     - operator
     - ttl
     - garbage-collection
     - resource-lifecycle
+
   maintainers:
     - name: wenisch-tech
       email: operator@wenisch.tech
+
   provider:
     name: wenisch-tech
     url: https://wenisch.tech
+
   links:
     - name: GitHub Repository
       url: https://github.com/wenisch-tech/ChronoReaper
     - name: OperatorHub
       url: https://operatorhub.io
+
   icon:
     - base64data: >-
-        PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAy NCAyNCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAg MTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTEgMTVoLTJ2LTZoMnY2em0wLThoLTJWN2gy djJ6Ii8+PC9zdmc+
+        PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAy
+        NCAyNCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAg
+        MTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTEgMTVoLTJ2LTZoMnY2em0wLThoLTJWN2gy
+        djJ6Ii8+PC9zdmc+
       mediatype: image/svg+xml
+
   minKubeVersion: 1.25.0
+
   installModes:
     - type: OwnNamespace
       supported: true
@@ -111,6 +123,7 @@ spec:
       supported: false
     - type: AllNamespaces
       supported: true
+
   install:
     strategy: deployment
     spec:
@@ -137,27 +150,27 @@ spec:
             - apiGroups: ["*"]
               resources: ["*"]
               verbs: [get, list, watch, delete]
-          serviceAccountName: chrono-reaper
+          serviceAccountName: chronoreaper
       deployments:
-        - name: chrono-reaper
+        - name: chronoreaper
           spec:
             replicas: 1
             selector:
               matchLabels:
-                app.kubernetes.io/name: chrono-reaper
+                app.kubernetes.io/name: chronoreaper
             strategy: {}
             template:
               metadata:
                 labels:
-                  app.kubernetes.io/name: chrono-reaper
+                  app.kubernetes.io/name: chronoreaper
               spec:
-                serviceAccountName: chrono-reaper
+                serviceAccountName: chronoreaper
                 securityContext:
                   runAsNonRoot: true
                   runAsUser: 1000
                 containers:
                   - name: operator
-                    image: ghcr.io/wenisch-tech/ChronoReaper:0.0.1
+                    image: docker.io/wenischtech/chronoreaper:1.0.0
                     imagePullPolicy: IfNotPresent
                     securityContext:
                       allowPrivilegeEscalation: false
@@ -201,6 +214,8 @@ spec:
                 volumes:
                   - name: tmp
                     emptyDir: {}
+
   customresourcedefinitions:
     owned: []
+
   webhookdefinitions: []

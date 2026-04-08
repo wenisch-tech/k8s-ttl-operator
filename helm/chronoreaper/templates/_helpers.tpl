@@ -1,14 +1,14 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "chrono-reaper.name" -}}
+{{- define "chronoreaper.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create a default fully qualified app name.
 */}}
-{{- define "chrono-reaper.fullname" -}}
+{{- define "chronoreaper.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -24,16 +24,16 @@ Create a default fully qualified app name.
 {{/*
 Create chart label.
 */}}
-{{- define "chrono-reaper.chart" -}}
+{{- define "chronoreaper.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels.
 */}}
-{{- define "chrono-reaper.labels" -}}
-helm.sh/chart: {{ include "chrono-reaper.chart" . }}
-{{ include "chrono-reaper.selectorLabels" . }}
+{{- define "chronoreaper.labels" -}}
+helm.sh/chart: {{ include "chronoreaper.chart" . }}
+{{ include "chronoreaper.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,17 +43,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels.
 */}}
-{{- define "chrono-reaper.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "chrono-reaper.name" . }}
+{{- define "chronoreaper.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chronoreaper.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Service account name.
 */}}
-{{- define "chrono-reaper.serviceAccountName" -}}
+{{- define "chronoreaper.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "chrono-reaper.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "chronoreaper.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

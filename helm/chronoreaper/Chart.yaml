@@ -1,5 +1,5 @@
 apiVersion: v2
-name: chrono-reaper
+name: chronoreaper
 description: |
   A Kubernetes operator that automatically deletes resources annotated with
   wenisch.tech/ttl when the specified UTC timestamp has passed.

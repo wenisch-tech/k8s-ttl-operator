@@ -83,15 +83,15 @@ jobs:
         run: |
           set -euo pipefail
           version="${{ inputs.version }}"
-          yq eval ".appVersion = \"$version\"" -i helm/chrono-reaper/Chart.yaml
-          yq eval ".version = \"$version\"" -i helm/chrono-reaper/Chart.yaml
+          yq eval ".appVersion = \"$version\"" -i helm/chronoreaper/Chart.yaml
+          yq eval ".version = \"$version\"" -i helm/chronoreaper/Chart.yaml
 
       - name: Generate Helm values schema
         shell: bash
         run: |
           set -euo pipefail
           helm plugin install https://github.com/karuppiah7890/helm-schema-gen.git
-          helm schema-gen helm/chrono-reaper/values.yaml > helm/chrono-reaper/values.schema.json
+          helm schema-gen helm/chronoreaper/values.yaml > helm/chronoreaper/values.schema.json
 
       - name: Commit release files
         shell: bash
@@ -99,12 +99,12 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add pom.xml CHANGELOG.md helm/chrono-reaper/Chart.yaml helm/chrono-reaper/values.schema.json
+          git add pom.xml CHANGELOG.md helm/chronoreaper/Chart.yaml helm/chronoreaper/values.schema.json
           git commit -m "chore(release): ${{ inputs.tag }} [skip ci]" || exit 0
           git push
 
       - name: Package Helm chart
-        run: helm package helm/chrono-reaper/ --destination ./release
+        run: helm package helm/chronoreaper/ --destination ./release
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3
@@ -129,14 +129,14 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUBTOKEN }}
         run: |
           git clone https://$GH_TOKEN@github.com/JFWenisch/charts.git charts-repo
-          mkdir -p charts-repo/chrono-reaper
-          cp ./release/*.tgz charts-repo/chrono-reaper/
-          cp ./release/*.cosign.bundle charts-repo/chrono-reaper/ 2>/dev/null || true
+          mkdir -p charts-repo/chronoreaper
+          cp ./release/*.tgz charts-repo/chronoreaper/
+          cp ./release/*.cosign.bundle charts-repo/chronoreaper/ 2>/dev/null || true
           cd charts-repo
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add .
-          git commit -m "Add chrono-reaper helm chart in version ${{ inputs.version }}" || echo "No chart changes to commit"
+          git commit -m "Add chronoreaper helm chart in version ${{ inputs.version }}" || echo "No chart changes to commit"
           git push https://$GH_TOKEN@github.com/JFWenisch/charts.git main
 
       - name: Create GitHub release
@@ -172,8 +172,8 @@ jobs:
 
             **Verify Helm chart signature:**
             ```bash
-            cosign verify-blob chrono-reaper-${{ inputs.version }}.tgz \
-              --bundle chrono-reaper-${{ inputs.version }}.tgz.cosign.bundle \
+            cosign verify-blob chronoreaper-${{ inputs.version }}.tgz \
+              --bundle chronoreaper-${{ inputs.version }}.tgz.cosign.bundle \
               --certificate-identity-regexp="https://github.com/wenisch-tech/ChronoReaper" \
               --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
             ```
