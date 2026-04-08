@@ -8,7 +8,7 @@ metadata:
       []
     capabilities: Basic Install
     categories: Developer Tools
-    containerImage: docker.io/wenischtech/chronoreaper:1.0.0
+    containerImage: ghcr.io/wenisch-tech/chronoreaper:1.0.0
     createdAt: "2024-01-01T00:00:00Z"
     description: |
       A Kubernetes operator that automatically deletes resources annotated with
@@ -170,7 +170,7 @@ spec:
                   runAsUser: 1000
                 containers:
                   - name: operator
-                    image: docker.io/wenischtech/chronoreaper:1.0.0
+                    image: ghcr.io/wenisch-tech/chronoreaper:1.0.0
                     imagePullPolicy: IfNotPresent
                     securityContext:
                       allowPrivilegeEscalation: false
