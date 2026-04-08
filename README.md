@@ -1,14 +1,13 @@
 # ChronoReaper
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://adoptium.net)
 [![Quarkus](https://img.shields.io/badge/Quarkus-3.8-blueviolet.svg)](https://quarkus.io)
 
-A **Kubernetes Operator** that automatically deletes any resource once its
-`wenisch.tech/ttl` annotation timestamp has passed.
+A **Kubernetes Operator**  Built with [Quarkus](https://quarkus.io) and the
+[Java Operator SDK (JOSDK)](https://javaoperatorsdk.io) that automatically deletes resources once a timestamp defined as annotation has passed passed.
 
-Built with [Quarkus](https://quarkus.io) and the
-[Java Operator SDK (JOSDK)](https://javaoperatorsdk.io). Deployable via
+Deployable via
 [Helm](https://helm.sh) or the
 [Operator Lifecycle Manager (OLM)](https://olm.operatorframework.io) /
 [OperatorHub.io](https://operatorhub.io).
@@ -22,13 +21,12 @@ specified timestamp is reached, the operator automatically deletes the resource.
 
 The operator polls all resource types every 60 seconds (configurable).
 
----
 
-## Annotation format
+### Annotation format
 
 Two timestamp formats are supported:
 
-### ISO-8601 UTC
+#### ISO-8601 UTC
 
 ```yaml
 metadata:
@@ -36,7 +34,7 @@ metadata:
     wenisch.tech/ttl: "2025-12-31T23:59:59Z"
 ```
 
-### Unix epoch seconds
+#### Unix epoch seconds
 
 ```yaml
 metadata:
@@ -227,64 +225,12 @@ mvn quarkus:dev
 ### Build the container image
 
 ```bash
-docker build -t wenischtech/chrono-reaper:1.0.0 .
-docker push wenischtech/chrono-reaper:1.0.0
+docker build -t wenisch-tech/chrono-reaper:latest .
+docker push wenisch-tech/chrono-reaper:latest
 ```
 
----
 
-## Repository layout
-
-```
-ChronoReaper/
-├── src/
-│   ├── main/java/tech/wenisch/operator/
-│   │   ├── TtlOperatorApplication.java   # Quarkus / JOSDK entry point
-│   │   └── TtlController.java            # Scheduled TTL-check logic
-│   └── main/resources/
-│       └── application.properties        # Runtime configuration defaults
-├── helm/chrono-reaper/                # Helm chart
-│   ├── Chart.yaml
-│   ├── values.yaml
-│   └── templates/
-│       ├── deployment.yaml
-│       ├── serviceaccount.yaml
-│       ├── clusterrole.yaml              # cluster-wide get/list/watch/delete
-│       ├── clusterrolebinding.yaml
-│       └── service.yaml
-├── bundle/                               # OLM bundle for OperatorHub.io
-│   ├── manifests/
-│   │   └── chrono-reaper.v1.0.0.clusterserviceversion.yaml
-│   ├── metadata/
-│   │   └── annotations.yaml
-│   ├── tests/scorecard/config.yaml
-│   └── Dockerfile
-├── Dockerfile                            # Operator container image (multi-stage)
-└── pom.xml
-```
-
----
-
-## OLM / OperatorHub.io publishing
-
-1. **Validate** the bundle with the Operator SDK scorecard:
-
-   ```bash
-   operator-sdk scorecard bundle/
-   ```
-
-2. **Build & push** the bundle image:
-
-   ```bash
-   docker build -t wenischtech/chrono-reaper-bundle:1.0.0 bundle/
-   docker push wenischtech/chrono-reaper-bundle:1.0.0
-   ```
-
-3. **Submit** to OperatorHub.io by following the
-   [contribution guide](https://operatorhub.io/contribute).
-
----
 
 ## License
 
-[Apache License 2.0](LICENSE)
+[GNU Affero General Public License v3.0](LICENSE)

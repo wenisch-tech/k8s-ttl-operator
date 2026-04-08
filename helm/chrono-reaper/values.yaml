@@ -3,9 +3,9 @@
 replicaCount: 1
 
 image:
-  repository: wenischtech/chrono-reaper
+  repository: wenisch-tech/chrono-reaper
   pullPolicy: IfNotPresent
-  tag: "1.0.0"
+  tag: 
 
 imagePullSecrets: []
 
