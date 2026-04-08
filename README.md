@@ -1,10 +1,12 @@
 # ChronoReaper
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
-[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://adoptium.net)
-[![Quarkus](https://img.shields.io/badge/Quarkus-3.8-blueviolet.svg)](https://quarkus.io)
+[![GitHub Release](https://img.shields.io/github/v/release/wenisch-tech/chronoreaper?logo=github)](https://github.com/wenisch-tech/Kairos/releases)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](LICENSE.md)
+[![Container](https://img.shields.io/badge/container-ghcr.io-blue?logo=github)](https://github.com/wenisch-tech/chronoreaper/pkgs/container/chronoreaper)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/kairos)](https://artifacthub.io/packages/helm/jfwenisch/chronoreaper)
+[![Signed](https://img.shields.io/badge/signed-cosign-green?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAxTDMgNXY2YzAgNS41NSAzLjg0IDEwLjc0IDkgMTIgNS4xNi0xLjI2IDktNi40NSA5LTEyVjVsLTktNHoiLz48L3N2Zz4=)](https://github.com/wenisch-tech/chronoreaper/actions)
 
-A **Kubernetes Operator**  Built with [Quarkus](https://quarkus.io) and the
+ChronoReaper is a Kubernetes Operator built with [Quarkus](https://quarkus.io) and the
 [Java Operator SDK (JOSDK)](https://javaoperatorsdk.io) that automatically deletes resources once a timestamp defined as annotation has passed passed.
 
 Deployable via
@@ -12,7 +14,7 @@ Deployable via
 [Operator Lifecycle Manager (OLM)](https://olm.operatorframework.io) /
 [OperatorHub.io](https://operatorhub.io).
 
----
+
 
 ## How it works
 
