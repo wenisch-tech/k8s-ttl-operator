@@ -1,5 +1,24 @@
 # Changelog
 
+## v1.1.1 - 2026-04-08
+
+### [1.1.1](https://github.com/wenisch-tech/ChronoReaper/compare/v1.1.0...v1.1.1) (2026-04-08)
+
+
+### Bug Fixes
+
+* cleanup helm chart and used image ([c630d35](https://github.com/wenisch-tech/ChronoReaper/commit/c630d35f8dd0e26ea9dcab90544526bb4f728f0d))
+
+
+### Code Refactoring
+
+* cleanup old bundle versions ([b8147b8](https://github.com/wenisch-tech/ChronoReaper/commit/b8147b8f1420795d2d44dba5348f6784a312c45a))
+
+
+
+Docker image: ghcr.io/wenisch-tech/chronoreaper:1.1.1
+
+
 ## v1.1.0 - 2026-04-08
 
 ## [1.1.0](https://github.com/wenisch-tech/ChronoReaper/compare/v1.0.1...v1.1.0) (2026-04-08)
