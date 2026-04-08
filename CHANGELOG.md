@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.0.1 - 2026-04-08
+
+### [1.0.1](https://github.com/wenisch-tech/ChronoReaper/compare/v1.0.0...v1.0.1) (2026-04-08)
+
+
+### Documentation
+
+* updated Readme for helmchart ([65f6549](https://github.com/wenisch-tech/ChronoReaper/commit/65f65495a6a28cb890b463c7a4494ba42ca757ac))
+
+
+
+Docker image: ghcr.io/wenisch-tech/chronoreaper:1.0.1
+
+
 ## v1.0.0 - 2026-04-08
 
 ## [1.0.0](https://github.com/wenisch-tech/ChronoReaper/compare/v0.1.0...v1.0.0) (2026-04-08)
