@@ -6,6 +6,24 @@ description: |
 type: application
 version: 1.0.0
 appVersion: "1.0.0"
+kubeVersion: ">=1.25.0-0"
+annotations:
+  artifacthub.io/category: integration-delivery
+  artifacthub.io/license: AGPL-3.0-only
+  artifacthub.io/operator: "true"
+  artifacthub.io/operatorCapabilities: Basic Install
+  artifacthub.io/prerelease: "false"
+  artifacthub.io/images: |
+    - name: chronoreaper
+      image: ghcr.io/wenisch-tech/chronoreaper:1.0.0
+  artifacthub.io/links: |
+    - name: Source
+      url: https://github.com/wenisch-tech/ChronoReaper
+    - name: Documentation
+      url: https://github.com/wenisch-tech/ChronoReaper/blob/main/README.md
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial Artifact Hub publication for the ChronoReaper chart.
 keywords:
   - kubernetes
   - operator
